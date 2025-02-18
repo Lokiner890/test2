@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Космическая Анимация Аббревиатуры</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    .background {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      /*Фон*/
+      background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+      font-family: 'Orbitron', sans-serif;
+      color: #fff;
+      display: flex;
+      align-items:start;
+      justify-content: center;
+      height: 600px;
+      width: 100%;
+      position: relative;
+    }
+    #stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .abbreviation {
+      display: flex;
+      gap: 30px;
+      z-index: 1;
+      margin-top: 100px;
+    }
+    .letter {
+      font-size: 5rem;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s, text-shadow 0.3s;
+      /*Цвет внутри букв*/
+      color: #fff;
+      /*Тень вокруг букв */
+      text-shadow: 0 0 10px #00f, 0 0 20px #00f;
+    }
+    .letter:hover {
+      transform: scale(1.2);
+       /*Тень вокруг букв при наводке*/
+      text-shadow: 0 0 20px #0ff, 0 0 30px #0ff, 0 0 40px #0ff;
+    }
+    .word {
+      position: absolute;
+      top: 100%; 
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+    .letter:hover .word {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .word span {
+      display: block;
+      font-size: 1.5rem;
+       /*Тень маленьких букв */
+      color: #0ff;
+      margin-top: 2px;
+    }
+    @keyframes twinkle {
+      0% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0.3; transform: scale(1); }
+    }
+    .star {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0.5;
+      animation: twinkle 2s infinite ease-in-out alternate;
+    }
+  </style>
+</head>
+<body>
+    <div class="background">
+  <div id="stars"></div>
+  
+  <div class="abbreviation">
+    <div class="letter" data-title="uality">Q</div>
+    <div class="letter" data-title="niqueness">U</div>
+    <div class="letter" data-title="xcellence">E</div>
+    <div class="letter" data-title="legance">E</div>
+    <div class="letter" data-title="ovelty">N</div>
+  </div>
+</div>
+  <script>
+    const starCount = 150;
+    const starsContainer = document.getElementById('stars');
+    
+    for (let i = 0; i < starCount; i++) {
+      const star = document.createElement('div');
+      star.classList.add('star');
+      const size = Math.random() * 3;
+      star.style.width = size + 'px';
+      star.style.height = size + 'px';
+      star.style.top = Math.random() * window.innerHeight + 'px';
+      star.style.left = Math.random() * window.innerWidth + 'px';
+      star.style.animationDuration = (Math.random() * 2 + 1) + 's';
+      starsContainer.appendChild(star);
+    }
+    
+    const letters = document.querySelectorAll('.letter');
+    letters.forEach(letter => {
+      const wordText = letter.dataset.title;
+      const wordDiv = document.createElement('div');
+      wordDiv.classList.add('word');
+      [...wordText].forEach(char => {
+        const span = document.createElement('span');
+        span.textContent = char;
+        wordDiv.appendChild(span);
+      });
+      letter.appendChild(wordDiv);
+    });
+  </script>
+
+</body>
+</html>
